@@ -20,3 +20,9 @@ stages:
         inputs:
           packageType: 'sdk'
           version: '6.x.x'
+
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'restore'
+          feedsToUse: 'select'
+          vstsFeed: 'bc03c712-44c4-4932-87ba-ac35eaa10b33/0d882750-e9f7-4349-9c31-ece9b225e1fc'
