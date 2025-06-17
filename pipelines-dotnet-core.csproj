@@ -4,5 +4,6 @@
     <TargetFramework>net6.0</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <RootNamespace>pipelines_dotnet_core</RootNamespace>
+    <IsPackable>true</IsPackable>
   </PropertyGroup>
 </Project>
