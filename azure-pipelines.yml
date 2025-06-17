@@ -26,7 +26,8 @@ stages:
           SonarQube: 'SonarQube cloud'
           organization: 'devopspractice-2025'
           scannerMode: 'dotnet'
-          projectKey: 'devopspractice-2025'
+          projectKey: '9060128d289ee88e4b1ca57aeff5236ec1acd1ab'
+          projectName: 'pipelines-dotnet-core.git'
 
       - task: DotNetCoreCLI@2
         inputs:
