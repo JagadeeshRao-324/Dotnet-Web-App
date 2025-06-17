@@ -21,6 +21,13 @@ stages:
           packageType: 'sdk'
           version: '6.x.x'
 
+      - task: SonarCloudPrepare@3
+        inputs:
+          SonarQube: 'SonarQube cloud'
+          organization: 'devopspractice-2025'
+          scannerMode: 'dotnet'
+          projectKey: 'devopspractice-2025'
+
       - task: DotNetCoreCLI@2
         inputs:
           command: 'restore'
@@ -33,3 +40,5 @@ stages:
           command: 'build'
           projects: '/*.csproj'
           arguments: '--configuration  $(buildConfiguration)'
+
+
