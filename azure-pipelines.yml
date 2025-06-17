@@ -42,4 +42,10 @@ stages:
           projects: '/*.csproj'
           arguments: '--configuration  $(buildConfiguration)'
 
+      - task: SonarCloudAnalyze@3
+        inputs:
+          jdkversion: 'JAVA_HOME_17_X64'
+          
+
+
 
