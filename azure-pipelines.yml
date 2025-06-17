@@ -14,15 +14,18 @@ stages:
   - stage: 'BuildandTest'
     jobs:
     - job: Build
+      displayName: 'Build and package'
       pool:
         vmImage: 'windows-latest'
       steps:
       - task: UseDotNet@2
+        displayName: 'Install DotNet'
         inputs:
           packageType: 'sdk'
           version: '6.0.x'
 
       - task: SonarCloudPrepare@3
+        displayName: 'Prepare sonarQube'
         inputs:
           SonarQube: 'SonarQube cloud'
           organization: 'devopspractice-2025'
@@ -31,6 +34,7 @@ stages:
           projectName: 'pipelines-dotnet-core.git'
 
       - task: DotNetCoreCLI@2
+        displayName: 'dotnet restore'
         inputs:
           command: 'restore'
           projects: '**/*.csproj'
@@ -38,16 +42,19 @@ stages:
           vstsFeed: 'bc03c712-44c4-4932-87ba-ac35eaa10b33/0d882750-e9f7-4349-9c31-ece9b225e1fc'
 
       - task: DotNetCoreCLI@2
+        displayName: 'dotnet build'
         inputs:
           command: 'build'
           projects: '**/*.csproj'
           arguments: '--configuration  $(buildConfiguration)'
 
       - task: SonarCloudAnalyze@3
+        displayName: 'Code analysis'
         inputs:
           jdkversion: 'JAVA_HOME_17_X64'
           
       - task: DotNetCoreCLI@2
+        displayName: 'dotnet pack'
         inputs:
           command: 'pack'
           packagesToPack: '**/*.csproj'
@@ -56,6 +63,7 @@ stages:
           versionEnvVar: 'packageVersion'
     
       - task: DotNetCoreCLI@2
+        displayName: 'dotnet push'
         inputs:
           command: 'push'
           packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
