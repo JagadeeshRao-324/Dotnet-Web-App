@@ -8,10 +8,13 @@ trigger: none
 
 
 stages:
-  - stage: Build and Test
+  - stage: 'BuildandTest'
     jobs:
     - job: Build
       pool:
-        vmImage: windows-latest
+        vmImage: 'windows-latest'
       steps:
-        -   
+      - task: UseDotNet@2
+        inputs:
+          packageType: 'sdk'
+          version: '8.x.x'
