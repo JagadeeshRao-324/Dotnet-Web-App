@@ -5,6 +5,8 @@
 
 trigger: none
 
+variables:
+  buildConfiguration: 'Release'
 
 
 stages:
