@@ -7,6 +7,7 @@ trigger: none
 
 variables:
   buildConfiguration: 'Release'
+  packageVersion: '1.0.$(Build.BuildId)'
 
 
 stages:
@@ -32,20 +33,27 @@ stages:
       - task: DotNetCoreCLI@2
         inputs:
           command: 'restore'
-          projects: '/*.csproj'
+          projects: '**/*.csproj'
           feedsToUse: 'select'
           vstsFeed: 'bc03c712-44c4-4932-87ba-ac35eaa10b33/0d882750-e9f7-4349-9c31-ece9b225e1fc'
 
       - task: DotNetCoreCLI@2
         inputs:
           command: 'build'
-          projects: '/*.csproj'
+          projects: '**/*.csproj'
           arguments: '--configuration  $(buildConfiguration)'
 
       - task: SonarCloudAnalyze@3
         inputs:
           jdkversion: 'JAVA_HOME_17_X64'
           
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'pack'
+          packagesToPack: '**/*.csproj'
+          configuration: '$(buildConfiguration)'
+          versioningScheme: 'byEnvVar'
+          versionEnvVar: 'packageVersion'
 
 
 
