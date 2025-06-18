@@ -83,7 +83,7 @@ stages:
           publishLocation: 'Container'
 
   
-  - stage: 'Dev'
+  - stage: 'DEV'
     jobs:
     - deployment: DeploytoDev
       displayName: 'Deploy to dev'
@@ -107,6 +107,35 @@ stages:
                   azureSubscription: 'dotnetapptoazure'
                   appType: 'webAppLinux'
                   WebAppName: 'dotnetapp-dev'
+                  packageForLinux: '$(System.ArtifactsDirectory)/**/*.zip'
+                  RuntimeStack: 'DOTNETCORE|8.0'
+                  DeploymentTypeLinux: 'oneDeploy'
+
+
+  - stage: 'QA'
+    jobs:
+    - deployment: DeploytoQA
+      displayName: 'Deploy to QA'
+      pool:
+        vmImage: 'ubuntu-latest'
+      environment: 'QA'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - task: DownloadBuildArtifacts@1
+                inputs:
+                  buildType: 'current'
+                  downloadType: 'single'
+                  artifactName: 'drop'
+                  downloadPath: '$(System.ArtifactsDirectory)/drop'
+
+              - task: AzureRmWebAppDeployment@5
+                inputs:
+                  ConnectionType: 'AzureRM'
+                  azureSubscription: 'dotnetapptoazure'
+                  appType: 'webAppLinux'
+                  WebAppName: 'dotnetapp-qa'
                   packageForLinux: '$(System.ArtifactsDirectory)/**/*.zip'
                   RuntimeStack: 'DOTNETCORE|8.0'
                   DeploymentTypeLinux: 'oneDeploy'
