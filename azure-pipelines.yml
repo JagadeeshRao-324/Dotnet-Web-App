@@ -83,15 +83,15 @@ stages:
           publishLocation: 'Container'
 
   
-  - stage: 'Dev'
-    jobs:
-    - deployment: DeploytoDev
-      displayName: 'Deploy to dev'
-      pool:
-        vmImage: 'windows-latest'
-      environment: 'DEV'
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-              -           
+  # - stage: 'Dev'
+  #   jobs:
+  #   - deployment: DeploytoDev
+  #     displayName: 'Deploy to dev'
+  #     pool:
+  #       vmImage: 'windows-latest'
+  #     environment: 'DEV'
+  #     strategy:
+  #       runOnce:
+  #         deploy:
+  #           steps:
+  #             -           
