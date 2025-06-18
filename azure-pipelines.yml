@@ -85,8 +85,13 @@ stages:
   
   - stage: 'Dev'
     jobs:
-    - job: DeploytoDev
+    - deployment: DeploytoDev
       displayName: 'Deploy to dev'
       pool:
         vmImage: 'windows-latest'
-      steps:          
+      environment: 'DEV'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              -           
