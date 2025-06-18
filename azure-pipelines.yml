@@ -86,6 +86,7 @@ stages:
 
   
   - stage: 'DEV'
+    dependsOn: BuildandTest
     jobs:
     - deployment: DeploytoDev
       displayName: 'Deploy to dev'
@@ -117,6 +118,7 @@ stages:
 
 
   - stage: 'QA'
+    dependsOn: DEV
     jobs:
     - deployment: DeploytoQA
       displayName: 'Deploy to QA'
@@ -148,6 +150,7 @@ stages:
 
 
   - stage: 'PROD'
+    dependsOn: QA
     jobs:
     - deployment: DeploytoPROD
       displayName: 'Deploy to PROD'
