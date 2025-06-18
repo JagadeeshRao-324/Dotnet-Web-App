@@ -100,3 +100,13 @@ stages:
                   downloadType: 'single'
                   artifactName: 'drop'
                   downloadPath: '$(System.ArtifactsDirectory)/drop'
+
+              - task: AzureRmWebAppDeployment@5
+                inputs:
+                  ConnectionType: 'AzureRM'
+                  azureSubscription: 'dotnetapptoazure'
+                  appType: 'webAppLinux'
+                  WebAppName: 'dotnetapp-dev'
+                  packageForLinux: '$(System.ArtifactsDirectory)/**/*.zip'
+                  RuntimeStack: 'DOTNETCORE|8.0'
+                  DeploymentTypeLinux: 'oneDeploy'
