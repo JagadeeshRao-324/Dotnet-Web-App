@@ -88,7 +88,7 @@ stages:
     - deployment: DeploytoDev
       displayName: 'Deploy to dev'
       pool:
-        vmImage: 'windows-latest'
+        vmImage: 'ubuntu-latest'
       environment: 'DEV'
       strategy:
         runOnce:
