@@ -81,3 +81,12 @@ stages:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
           ArtifactName: 'drop'
           publishLocation: 'Container'
+
+  
+  - stage: 'Dev'
+    jobs:
+    - job: DeploytoDev
+      displayName: 'Deploy to dev'
+      pool:
+        vmImage: 'windows-latest'
+      steps:          
