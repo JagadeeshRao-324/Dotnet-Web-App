@@ -63,7 +63,7 @@ stages:
           versionEnvVar: 'packageVersion'
     
       - task: DotNetCoreCLI@2
-        displayName: 'dotnet push'
+        displayName: 'push to dotnet azure artifact feed'
         inputs:
           command: 'push'
           packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
@@ -71,12 +71,14 @@ stages:
           publishVstsFeed: 'bc03c712-44c4-4932-87ba-ac35eaa10b33/0d882750-e9f7-4349-9c31-ece9b225e1fc'
 
       - task: DotNetCoreCLI@2
+        displayName: 'Publish to staging directory'
         inputs:
           command: 'publish'
           publishWebProjects: true
           arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
 
       - task: PublishBuildArtifacts@1
+        displayName: 'Publish to pipeline artifact storage'
         inputs:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
           ArtifactName: 'drop'
@@ -95,6 +97,7 @@ stages:
           deploy:
             steps:
               - task: DownloadBuildArtifacts@1
+                displayName: 'download build artifact'
                 inputs:
                   buildType: 'current'
                   downloadType: 'single'
@@ -102,6 +105,7 @@ stages:
                   downloadPath: '$(System.ArtifactsDirectory)/drop'
 
               - task: AzureRmWebAppDeployment@5
+                displayName: 'deploy dev app'
                 inputs:
                   ConnectionType: 'AzureRM'
                   azureSubscription: 'dotnetapptoazure'
@@ -124,6 +128,7 @@ stages:
           deploy:
             steps:
               - task: DownloadBuildArtifacts@1
+                displayName: 'download build artifacts='
                 inputs:
                   buildType: 'current'
                   downloadType: 'single'
@@ -131,11 +136,43 @@ stages:
                   downloadPath: '$(System.ArtifactsDirectory)/drop'
 
               - task: AzureRmWebAppDeployment@5
+                displayName: 'deploy qa app'
                 inputs:
                   ConnectionType: 'AzureRM'
                   azureSubscription: 'dotnetapptoazure'
                   appType: 'webAppLinux'
                   WebAppName: 'dotnetapp-qa'
+                  packageForLinux: '$(System.ArtifactsDirectory)/**/*.zip'
+                  RuntimeStack: 'DOTNETCORE|8.0'
+                  DeploymentTypeLinux: 'oneDeploy'
+
+
+  - stage: 'PROD'
+    jobs:
+    - deployment: DeploytoPROD
+      displayName: 'Deploy to PROD'
+      pool:
+        vmImage: 'ubuntu-latest'
+      environment: 'PROD'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - task: DownloadBuildArtifacts@1
+                displayName: 'download build artifact'
+                inputs:
+                  buildType: 'current'
+                  downloadType: 'single'
+                  artifactName: 'drop'
+                  downloadPath: '$(System.ArtifactsDirectory)/drop'
+
+              - task: AzureRmWebAppDeployment@5
+                displayName: 'deploy prod app'
+                inputs:
+                  ConnectionType: 'AzureRM'
+                  azureSubscription: 'dotnetapptoazure'
+                  appType: 'webAppLinux'
+                  WebAppName: 'dotnetapp-prod'
                   packageForLinux: '$(System.ArtifactsDirectory)/**/*.zip'
                   RuntimeStack: 'DOTNETCORE|8.0'
                   DeploymentTypeLinux: 'oneDeploy'
