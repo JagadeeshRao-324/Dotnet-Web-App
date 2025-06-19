@@ -17,9 +17,9 @@ This repository contains a **.NET 8.0 Web Application** with a complete **multi-
 | Stage | Description                    | Environment      |
 |-------|--------------------------------|------------------|
 | Build | Build, test, analyze, publish  | Agent workspace  |
-| Dev   | Deploy to Dev App Service      | `dotnetapp-dev`  |
-| QA    | Deploy to QA App Service       | `dotnetapp-qa`   |
-| Prod  | Deploy to Production App       | `dotnetapp-prod` |
+| Dev   | Deploy to Dev App Service      | `DEV`  |
+| QA    | Deploy to QA App Service       | `QA`   |
+| Prod  | Deploy to Production App       | `PROD` |
 
 ---
 
