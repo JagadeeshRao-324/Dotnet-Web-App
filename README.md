@@ -23,4 +23,5 @@ This repository contains a **.NET 8.0 Web Application** with a complete **multi-
 
 ---
 
+![Image](https://github.com/user-attachments/assets/89ea7863-aef4-453c-8e55-b7a09ae97f5b)
 
